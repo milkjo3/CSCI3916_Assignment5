@@ -171,14 +171,14 @@ router
   })
 
   // Route not supported
-  .put(async (req, res) => {
+  .put(authJwtController.isAuthenticated, async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "PUT request not supported." });
   })
 
   // Route not supported
-  .delete(async (req, res) => {
+  .delete(authJwtController.isAuthenticated, async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "DELETE request not supported." });
@@ -323,7 +323,7 @@ router
 router
   .route("/reviews")
   // Return all reviews
-  .get(async (req, res) => {
+  .get(authJwtController.isAuthenticated, async (req, res) => {
     try {
       // Get all reviews
       const reviews = await Review.find();
@@ -382,14 +382,14 @@ router
   })
 
   // Route not supported
-  .put(async (req, res) => {
+  .put(authJwtController.isAuthenticated, async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "PUT request not supported." });
   })
 
   // Route not supported
-  .delete(async (req, res) => {
+  .delete(authJwtController.isAuthenticated, async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "DELETE request not supported." });
