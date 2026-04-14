@@ -111,8 +111,16 @@ router
               as: "movieReviews",
             },
           },
+          {
+            $addFields: {
+              avgRating: { $avg: '$movieReviews.rating' }
+            }
+          },
+          {
+            $sort: { avgRating: -1 }
+          }
         ]);
-
+        
         return res.status(200).json(result);
       } else {
         // Find all movies
