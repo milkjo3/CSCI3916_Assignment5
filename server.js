@@ -222,7 +222,7 @@ router
         return res.status(200).json({
           success: true,
           message: "Successfully fetched movie.",
-          movie: result,
+          movie: result[0],
         });
       } else {
         // Find one movie based on titled
