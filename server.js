@@ -193,7 +193,7 @@ router
   });
 
 router
-  .route("/movies/:title")
+  .route("/movies/:movieId")
   // Return movie based on title.
   .get(authJwtController.isAuthenticated, async (req, res) => {
     try {
@@ -201,7 +201,7 @@ router
         // Aggregate
         const result = await Movie.aggregate([
           {
-            $match: { title: req.params.title },
+            $match: { _id: req.params.movieId },
           },
           {
             $lookup: {
@@ -225,7 +225,7 @@ router
         });
       } else {
         // Find one movie based on titled
-        const movie = await Movie.findOne({ title: req.params.title });
+        const movie = await Movie.findOne({ _id: req.params.movieId });
 
         // Return 204 if none found
         if (!movie) {
@@ -258,20 +258,20 @@ router
   .put(authJwtController.isAuthenticated, async (req, res) => {
     try {
       // Find movie using title
-      const movie = await Movie.findOne({ title: req.params.title });
+      const movie = await Movie.findOne({ _id: req.params.movieId });
 
       // If no movie, return 404
       if (!movie) {
         return res.status(404).json({
           success: false,
           message: "PUT failed, resource cannot be found.",
-          resource: `${req.params.title}`,
+          resource: `${req.params.movieId}`,
         });
       }
 
       // Update the movie
       const resource = await Movie.updateOne(
-        { title: req.params.title },
+        { _id: req.params.movieId },
         { $set: req.body },
       );
       return res.status(200).json({
@@ -280,7 +280,7 @@ router
           resource.modifiedCount === 1
             ? "Resource updated successfully."
             : "No changes were needed, resource was already up to data.",
-        resource: `${req.params.title}`,
+        resource: `${req.params.movieId}`,
       });
     } catch (err) {
       console.log(err);
@@ -294,30 +294,30 @@ router
   .delete(authJwtController.isAuthenticated, async (req, res) => {
     try {
       // Find the movie by title
-      const movie = await Movie.findOne({ title: req.params.title });
+      const movie = await Movie.findOne({ _id: req.params.movieId });
 
       // Return 404 if not found
       if (!movie) {
         return res.status(404).json({
           success: false,
           message: "DELETE failed, resource cannot be found.",
-          resource: `${req.params.title}`,
+          resource: `${req.params.movieId}`,
         });
       }
 
       // Delete the movie
-      const resource = await Movie.deleteOne({ title: req.params.title });
+      const resource = await Movie.deleteOne({ _id: req.params.movieId });
       if (resource.deletedCount === 1) {
         return res.status(200).json({
           success: true,
           message: "Resource deleted successfully.",
-          resource: `${req.params.title}`,
+          resource: `${req.params.movieId}`,
         });
       } else {
         return res.status(500).json({
           success: false,
           message: "Resource could not be deleted.",
-          resource: `${req.params.title}`,
+          resource: `${req.params.movieId}`,
         });
       }
     } catch (err) {
