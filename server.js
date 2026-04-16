@@ -201,7 +201,7 @@ router
         // Aggregate
         const result = await Movie.aggregate([
           {
-            $match: { _id: req.params.movieId },
+            $match: { _id: new mongoose.Types.ObjectId(req.params.movieId) },
           },
           {
             $lookup: {
