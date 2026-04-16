@@ -162,6 +162,7 @@ router
             ? req.body.genre
             : undefined,
         actors: req.body.actors ? req.body.actors : undefined,
+        imageUrl: req.body.imageUrl
       });
 
       // Save the movie to the database
