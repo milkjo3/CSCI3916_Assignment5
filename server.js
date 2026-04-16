@@ -371,7 +371,7 @@ router
 
       const review = new Review({
         movieId: req.body.movieId,
-        username: req.body.username ? req.body.username : "anonymous-user",
+        username: req.user.username,
         review: req.body.review ? req.body.review : "",
         rating:
           req.body.rating <= 5 && req.body.rating >= 0
