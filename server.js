@@ -212,6 +212,11 @@ router
               as: "movieReviews",
             },
           },
+          {
+            $addFields: {
+              avgRating: { $avg: '$movieReviews.rating' }
+            }
+          }
         ]);
 
         if (result.length === 0) {
